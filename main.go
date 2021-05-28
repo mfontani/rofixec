@@ -10,10 +10,10 @@ import (
 var configFileName string
 
 func init() {
-	flag.StringVar(&configFileName, "config", "", "JSON configuration file to use. Required.")
+	flag.StringVar(&configFileName, "config", "", "JSON or YAML configuration file to use. Required.")
 	flag.Parse()
 	if configFileName == "" {
-		panic("Need a config file name. See -config path/to/file.json")
+		panic("Need a config file name. See -config path/to/file.json or -config path/to/file.yaml")
 	}
 }
 
