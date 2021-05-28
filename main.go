@@ -24,10 +24,23 @@ func main() {
 	if pickedOption != "" {
 		for _, v := range items {
 			if pickedOption == v.Name {
-				cmd := exec.Command(v.Exec, v.Args...)
-				err := cmd.Start()
-				if err != nil {
-					panic(err)
+				if v.Exec != "" {
+					cmd := exec.Command(v.Exec, v.Args...)
+					err := cmd.Start()
+					if err != nil {
+						panic(err)
+					}
+				}
+				if len(v.Commands) > 0 {
+					for _, e := range v.Commands {
+						if v.Exec != "" {
+							cmd := exec.Command(e.Exec, e.Args...)
+							err := cmd.Start()
+							if err != nil {
+								panic(err)
+							}
+						}
+					}
 				}
 				os.Exit(0)
 			}
