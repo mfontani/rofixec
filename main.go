@@ -33,7 +33,7 @@ func main() {
 				}
 				if len(v.Commands) > 0 {
 					for _, e := range v.Commands {
-						if v.Exec != "" {
+						if e.Exec != "" {
 							cmd := exec.Command(e.Exec, e.Args...)
 							err := cmd.Start()
 							if err != nil {
