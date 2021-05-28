@@ -8,9 +8,11 @@ import (
 )
 
 var configFileName string
+var forkAndExit bool
 
 func init() {
 	flag.StringVar(&configFileName, "config", "", "JSON or YAML configuration file to use. Required.")
+	flag.BoolVar(&forkAndExit, "fork", false, "(INTERNAL) whether to fork the execution of commands, then exit.")
 	flag.Parse()
 	if configFileName == "" {
 		panic("Need a config file name. See -config path/to/file.json or -config path/to/file.yaml")
@@ -24,6 +26,25 @@ func main() {
 	if pickedOption != "" {
 		for _, v := range items {
 			if pickedOption == v.Name {
+				if len(v.Commands) > 0 {
+					// Commands must be run sequentially, in a separate process so as to not hold rofi open
+					if !forkAndExit {
+						newArgs := make([]string, 0)
+						newArgs = append(newArgs, "-fork")
+						for i, v := range os.Args {
+							if i == 0 {
+								continue
+							}
+							newArgs = append(newArgs, v)
+						}
+						cmd := exec.Command(os.Args[0], newArgs...)
+						err := cmd.Start()
+						if err != nil {
+							panic(err)
+						}
+						os.Exit(0)
+					}
+				}
 				if v.Exec != "" {
 					cmd := exec.Command(v.Exec, v.Args...)
 					err := cmd.Start()
@@ -35,7 +56,7 @@ func main() {
 					for _, e := range v.Commands {
 						if e.Exec != "" {
 							cmd := exec.Command(e.Exec, e.Args...)
-							err := cmd.Start()
+							err := cmd.Run() // Run sequentially!
 							if err != nil {
 								panic(err)
 							}
