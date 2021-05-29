@@ -12,7 +12,7 @@ var forkAndExit bool
 
 func init() {
 	flag.StringVar(&configFileName, "config", "", "JSON or YAML configuration file to use. Required.")
-	flag.BoolVar(&forkAndExit, "fork", false, "(INTERNAL) whether to fork the execution of commands, then exit.")
+	flag.BoolVar(&forkAndExit, "fork", false, "(INTERNAL) whether to execute commands synchronously, then exit.")
 	flag.Parse()
 	if configFileName == "" {
 		panic("Need a config file name. See -config path/to/file.json or -config path/to/file.yaml")
