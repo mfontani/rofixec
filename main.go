@@ -7,13 +7,29 @@ import (
 	"os/exec"
 )
 
+// Version contains the binary version. This is added at build time.
+var Version = "uncommitted"
+
+var showVersion = false
+
 var configFileName string
 var forkAndExit bool
 
 func init() {
+	flag.BoolVar(&showVersion, "version", showVersion, `Displays version information, then exits`)
 	flag.StringVar(&configFileName, "config", "", "JSON or YAML configuration file to use. Required.")
 	flag.BoolVar(&forkAndExit, "fork", false, "(INTERNAL) whether to execute commands synchronously, then exit.")
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage:\n\trofi -modi 'pick:rofixec -config CONFIG.yaml|CONFIG.json' -show pick\n\n")
+		fmt.Fprintf(os.Stderr, "See also: https://github.com/mfontani/rofixec\n\n")
+		flag.PrintDefaults()
+		fmt.Printf("\nThis is rofixec %s\n", Version)
+	}
 	flag.Parse()
+	if showVersion {
+		fmt.Printf("%s\n", Version)
+		os.Exit(0)
+	}
 	if configFileName == "" {
 		panic("Need a config file name. See -config path/to/file.json or -config path/to/file.yaml")
 	}
