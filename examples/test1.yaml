@@ -1,0 +1,8 @@
+---
+- name: notify with params
+  exec: notify-send
+  args:
+  - foo
+  - bar
+- name: fefe today
+  exec: fefe-today
