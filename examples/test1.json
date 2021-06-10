@@ -1,14 +1,16 @@
 [
     {
         "name": "notify with params",
-        "exec": "notify-send",
-        "args": [
-            "foo",
-            "bar"
+        "exec": [
+            [
+                "notify-send",
+                "foo",
+                "bar"
+            ]
         ]
     },
     {
         "name": "fefe today",
-        "exec": "fefe-today"
+        "exec": ["fefe-today"]
     }
 ]

@@ -1,98 +1,99 @@
 ---
 - name: REALLY LOW Backlight (0.1)
-  commands:
-    - exec: backlight
-      args:
-        - -S
-        - 0.1
-    - exec: backlightstatus
-      args:
-        - low
+  exec:
+    -
+      - backlight
+      - -S
+      - 0.1
+    -
+      - backlightstatus
+      - low
 - name: Low Backlight (4)
-  commands:
-    - exec: backlight
-      args:
-        - -S
-        - 4
-    - exec: backlightstatus
-      args:
-        - low
+  exec:
+    -
+      - backlight
+      - -S
+      - 4
+    -
+      - backlightstatus
+      - low
 - name: Mid Backlight (6)
-  commands:
-    - exec: backlight
-      args:
-        - -S
-        - 6
-    - exec: backlightstatus
-      args:
-        - mid
+  exec:
+    -
+      - backlight
+      - -S
+      - 6
+    -
+      - backlightstatus
+      - mid
 - name: PowerTop AutoTune
   commands:
-    - exec: notify-send
-      args:
-        - -t
-        - 1000
-        - -i
-        - battery
-        - -a
-        - pahwah
-        - pahwah
-        - Auto-tuning...
-    - exec: sudo
-      args:
-        - powertop
-        - auto-tune
-    - exec: notify-send
-      args:
-        - -t
-        - 1000
-        - -i
-        - battery
-        - -a
-        - pahwah
-        - pahwah
-        - Auto-tuned
+    -
+      - notify-send
+      - -t
+      - 1000
+      - -i
+      - battery
+      - -a
+      - pahwah
+      - pahwah
+      - Auto-tuning...
+    -
+      - sudo
+      - powertop
+      - auto-tune
+    -
+      - notify-send
+      - -t
+      - 1000
+      - -i
+      - battery
+      - -a
+      - pahwah
+      - pahwah
+      - Auto-tuned
 - name: Full On Battery (4 + AutoTune)
-  commands:
-    - exec: backlight
-      args:
-        - -S
-        - 4
-    - exec: backlightstatus
-      args:
-        - low
-    - exec: notify-send
-      args:
-        - -t
-        - 1000
-        - -i
-        - battery
-        - -a
-        - pahwah
-        - pahwah
-        - Auto-tuning...
-    - exec: sudo
-      args:
-        - powertop
-        - auto-tune
-    - exec: notify-send
-      args:
-        - -t
-        - 1000
-        - -i
-        - battery
-        - -a
-        - pahwah
-        - pahwah
-        - Auto-tuned
-    - exec: sudo
-      args:
-        - su
-        - -c
-        - 'echo "0 off" > /proc/acpi/ibm/led'
+  exec:
+    -
+      - backlight
+      - -S
+      - 4
+    -
+      - backlightstatus
+      - low
+    -
+      - notify-send
+      - -t
+      - 1000
+      - -i
+      - battery
+      - -a
+      - pahwah
+      - pahwah
+      - Auto-tuning...
+    -
+      - sudo
+      - powertop
+      - auto-tune
+    -
+      - notify-send
+      - -t
+      - 1000
+      - -i
+      - battery
+      - -a
+      - pahwah
+      - pahwah
+      - Auto-tuned
+    -
+      - sudo
+      - su
+      - -c
+      - 'echo "0 off" > /proc/acpi/ibm/led'
 - name: Kill power LED
-  exec: sudo
-  args:
-    - su
-    - -c
-    - 'echo "0 off" > /proc/acpi/ibm/led'
+  exec:
+    -
+      - sudo
+      - su
+      - -c
+      - 'echo "0 off" > /proc/acpi/ibm/led'

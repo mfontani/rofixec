@@ -42,7 +42,7 @@ func main() {
 	if pickedOption != "" {
 		for _, v := range items {
 			if pickedOption == v.Name {
-				if len(v.Commands) > 0 {
+				if len(v.Exec) > 0 {
 					// Commands must be run sequentially, in a separate process so as to not hold rofi open
 					if !forkAndExit {
 						newArgs := make([]string, 0)
@@ -60,22 +60,11 @@ func main() {
 						}
 						os.Exit(0)
 					}
-				}
-				if v.Exec != "" {
-					cmd := exec.Command(v.Exec, v.Args...)
-					err := cmd.Start()
-					if err != nil {
-						panic(err)
-					}
-				}
-				if len(v.Commands) > 0 {
-					for _, e := range v.Commands {
-						if e.Exec != "" {
-							cmd := exec.Command(e.Exec, e.Args...)
-							err := cmd.Run() // Run sequentially!
-							if err != nil {
-								panic(err)
-							}
+					for _, e := range v.Exec {
+						cmd := exec.Command(e[0], e[1:]...)
+						err := cmd.Run() // Run sequentially!
+						if err != nil {
+							panic(err)
 						}
 					}
 				}
